@@ -21,7 +21,7 @@ Frontend Framework: Next.js
 
 Language: TypeScript
 
-Styling: CSS / Tailwind CSS (if used)
+Styling: CSS / Tailwind CSS 
 
 Package Manager: npm
 
