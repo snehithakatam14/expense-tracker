@@ -1,95 +1,78 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { currentUser } from '@clerk/nextjs/server';
+import Balance from '@/components/Balance';
+import IncomeExpense from '@/components/IncomeExpense';
+import AddTransaction from '@/components/AddTransaction';
+import TransactionList from '@/components/TransactionList';
+import CurrencyControl from '@/components/CurrencyControl';
+import getUserBalance from '@/app/actions/getUserBalance';
+import getIncomeExpense from '@/app/actions/getIncomeExpense';
 
-export default function Home() {
+export default async function HomePage() {
+  const user = await currentUser();
+
+  const username =
+    user?.firstName ||
+    user?.username ||
+    (user?.emailAddresses[0]?.emailAddress
+      ? user.emailAddresses[0].emailAddress.split('@')[0]
+      : 'User');
+
+  const { balance = 0 } = await getUserBalance();
+  const { income = 0, expense = 0 } = await getIncomeExpense();
+
+  const rates = {
+    INR: 1,
+    USD: 0.012,
+    EUR: 0.011,
+    GBP: 0.0095,
+    JPY: 1.8,
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="dashboard-container">
+      {/* Welcome Section */}
+      <h2 className="welcome-text">
+        Welcome, <span className="highlight">{username}</span>
+      </h2>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+      {/* Balance and Currency Converter */}
+      <div className="top-section">
+        <div className="balance-card">
+          <h3>Your Balance</h3>
+          <p className="balance-amount">₹{balance.toFixed(2)}</p>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <div className="currency-card">
+          <CurrencyControl
+            balance={Number(balance.toFixed(2))}
+            income={Number(income.toFixed(2))}
+            expense={Number(expense.toFixed(2))}
+            currency="INR"
+            rates={rates}
           />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+      </div>
+
+      {/* Income & Expense */}
+      <div className="income-expense-section">
+        <div className="income-expense-card">
+          <h4>Income</h4>
+          <p className="income-text">₹{income.toFixed(2)}</p>
+        </div>
+        <div className="income-expense-card">
+          <h4>Expense</h4>
+          <p className="expense-text">₹{expense.toFixed(2)}</p>
+        </div>
+      </div>
+
+      {/* Add Transaction & History */}
+      <div className="bottom-section">
+        <div className="transaction-card">
+          <AddTransaction />
+        </div>
+        <div className="transaction-card">
+          <TransactionList />
+        </div>
+      </div>
+    </main>
   );
 }
