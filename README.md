@@ -1,4 +1,13 @@
 A modern full-stack expense tracking application built with Next.js and TypeScript that enables users to securely manage their income and expenses. The application provides real-time balance calculations, transaction history, user authentication, and multi-currency support through live exchange rates.
+# Expense Tracker
+
+A modern full-stack expense tracking application built with **Next.js**, **TypeScript**, **Prisma ORM**, **Clerk Authentication**, and a **Currency Conversion API**.
+
+## Preview
+
+<p align="center">
+  <img src="./screenshots/dashboard.jpg" alt="Expense Tracker Dashboard" width="900"/>
+</p>
 
 ## Features
 
@@ -32,3 +41,11 @@ A modern full-stack expense tracking application built with Next.js and TypeScri
 
 ### External APIs
 - Currency Exchange API
+  ## Additional Screenshots
+
+Additional application screenshots can be found in the **screenshots/** directory.
+
+- Authentication
+- Currency Conversion
+- Add Transaction
+- Transaction History
