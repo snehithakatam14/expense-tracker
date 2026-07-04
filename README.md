@@ -32,3 +32,24 @@ A modern full-stack expense tracking application built with Next.js and TypeScri
 
 ### External APIs
 - Currency Exchange API
+## Screenshots
+
+### Dashboard
+
+![Dashboard](./screenshots/dashboard.jpg)
+
+### Balance Overview
+
+![Balance](./screenshots/balance-card.jpg)
+
+### Currency Conversion
+
+![Currency Control](./screenshots/currency-control.jpg)
+
+### Add Transaction
+
+![Add Transaction](./screenshots/add-transaction.jpg)
+
+### Transaction History
+
+![Transaction History](./screenshots/transaction-type.jpg)
